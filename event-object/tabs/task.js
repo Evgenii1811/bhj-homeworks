@@ -1,4 +1,4 @@
-// zadacha 2
+// zadacha 3
 
 "use strict";
 
