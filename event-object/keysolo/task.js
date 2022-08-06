@@ -1,29 +1,48 @@
+// zadacha 2
+"use strict";
+
 class Game {
   constructor(container) {
     this.container = container;
     this.wordElement = container.querySelector('.word');
     this.winsElement = container.querySelector('.status__wins');
     this.lossElement = container.querySelector('.status__loss');
-
+    
     this.reset();
 
     this.registerEvents();
+    this.timerWork();
   }
 
   reset() {
     this.setNewWord();
     this.winsElement.textContent = 0;
     this.lossElement.textContent = 0;
+    
+  }
+
+  timerWork() {
+    clearInterval(this.set);
+    const workTimer = () => {
+    this.timer.textContent -= 1;
+      if (this.timer.textContent == 0) {
+        alert("Поражение! Попробуйте снова!");
+        this.fail();
+      }
+    };
+    this.set = setInterval(workTimer, 1000);
   }
 
   registerEvents() {
-    /*
-      TODO:
-      Написать обработчик события, который откликается
-      на каждый введённый символ.
-      В случае правильного ввода слова вызываем this.success()
-      При неправильном вводе символа - this.fail();
-     */
+    document.addEventListener("keyup", (event) => {
+      if (
+        event.key.toLowerCase() === this.currentSymbol.textContent.toLowerCase()
+      ) {
+        this.success();
+      } else {
+        this.fail();
+      }
+    });
   }
 
   success() {
@@ -37,7 +56,9 @@ class Game {
       alert('Победа!');
       this.reset();
     }
+
     this.setNewWord();
+    this.timer.textContent = this.currentSymbols.length;
   }
 
   fail() {
@@ -45,7 +66,9 @@ class Game {
       alert('Вы проиграли!');
       this.reset();
     }
+
     this.setNewWord();
+    this.timer.textContent = this.currentSymbols.length;
   }
 
   setNewWord() {
